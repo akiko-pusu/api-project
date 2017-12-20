@@ -44,3 +44,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'autodoc', group: :test
+
+# for Markdown
+gem 'maruku'

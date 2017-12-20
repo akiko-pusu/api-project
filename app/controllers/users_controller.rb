@@ -1,14 +1,22 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
-  # GET /users
+  # リソースについての記述をします
+  resource_description do
+    formats [:json]          # Suppoeted Formats に該当
+    api_versions 'public'    # APIのバージョン
+  end
+
+  api :GET, "/users", "List users"
+  description 'List users'
   def index
     @users = User.all
 
     render json: @users
   end
 
-  # GET /users/1
+  api :GET, "/users/:id", "Show user"
+  description 'Show user'
   def show
     render json: @user
   end
