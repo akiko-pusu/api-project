@@ -1,0 +1,22 @@
+version: '3'
+services:
+  # start service
+  # 1. $ docker-compose build --force-rm --no-cache
+  # 2. $ docker-compose up -d
+  #
+  #
+  web:
+    build:
+      context: .
+    image: api-project
+    container_name: api-project
+    command: >
+      bash -c "bundle &&
+           bundle exec rake db:migrate &&
+           bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
