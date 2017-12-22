@@ -44,6 +44,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'autodoc', group: :test
 
+# 20171222時点で master branchでswagger_json形式の変換がサポート
+# Githubから取得する場合はこちら
+# gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 gem 'apipie-rails'
 # for Markdown
 gem 'maruku'
