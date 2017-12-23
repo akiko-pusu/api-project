@@ -42,7 +42,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'autodoc', group: :test
+group :test do
+  gem 'autodoc'
+  gem 'rspec-json_matcher'
+end
 
 # 20171222時点で master branchでswagger_json形式の変換がサポート
 # Githubから取得する場合はこちら

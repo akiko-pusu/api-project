@@ -45,6 +45,7 @@ GEM
       actionpack
       activesupport (>= 3.0.0)
       rspec
+    awesome_print (1.8.0)
     builder (3.2.3)
     byebug (9.1.0)
     concurrent-ruby (1.0.5)
@@ -61,6 +62,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
+    json (2.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -118,6 +120,9 @@ GEM
     rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
+    rspec-json_matcher (0.1.6)
+      awesome_print
+      json
     rspec-mocks (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
@@ -164,6 +169,7 @@ DEPENDENCIES
   maruku
   puma (~> 3.7)
   rails (~> 5.1.4)
+  rspec-json_matcher
   rspec-rails
   spring
   spring-watcher-listen (~> 2.0.0)
