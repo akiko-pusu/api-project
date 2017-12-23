@@ -95,4 +95,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  # json_matcherを利用します
+  require 'rspec/json_matcher'
+  config.include RSpec::JsonMatcher
 end
