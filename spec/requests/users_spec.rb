@@ -46,5 +46,23 @@ RSpec.describe 'Users', type: :request do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    #
+    # apipieのバリデーションの動作チェック
+    #
+    context 'GET with non numeric value' do
+      let(:user_id) { 'abc' }
+      before { subject }
+      it 'return bad request', autodoc: false do
+        expect(response).to have_http_status(400)
+      end
+
+      it 'has error message' do
+        expect(response.body).to be_json_including(
+          code: 'invalid_parameter',
+          message: "Invalid parameter 'id' value \"#{user_id}\": Must be a number."
+        )
+      end
+    end
   end
 end

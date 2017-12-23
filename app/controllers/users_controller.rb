@@ -1,5 +1,15 @@
 class UsersController < ApplicationController
+  #
+  # NOTE: Apipieのバリデーションをbefore_actionで実施すると、before_actionでのset_userの
+  # 処理の前にパラメータのバリデーションチェックが走ります
+  #
+  before_action :apipie_validations
   before_action :set_user, only: %i[show update destroy]
+
+  # before_actionでのapipieのバリデーションが失敗の場合
+  rescue_from Apipie::ParamInvalid do |e|
+    render json: { code: 'invalid_parameter', message: e.message }, status: :bad_request
+  end
 
   # リソースについての記述をします
   resource_description do
@@ -52,27 +62,47 @@ class UsersController < ApplicationController
   EDOC
   def index
     @users = User.all
-
     render json: @users
   end
 
   api :GET, '/users/:id', '指定のIDのユーザ情報を返します'
   description '指定のIDのユーザ情報を返します'
   formats ['json']
-  error 401, 'Unauthorized'
+  error code: 401, description: 'Unauthorized'
   error code: 404, description: 'Not Found'
+  error code: 400, description: 'Invalid parameter'
 
   # パラメータ情報に加えて、簡単なバリデーションもapipie側で実施してくれます
+  # NOTE: ただし、before_actionでの処理が優先されます
   param :id, :number, desc: 'user id', required: true
 
   example <<-EDOC
-  $ curl http://localhost:3000/users/
+  $ curl http://localhost:3000/users/2
+        Content-Type: application/json; charset=utf-8
+        ETag: W/"a2a66c14b0ad0aa187a9718cd915684b"
+        Cache-Control: max-age=0, private, must-revalidate
+        X-Request-Id: a29e0573-c538-4bb6-b181-f2ad7611ca5a
+        X-Runtime: 0.018409
+        Transfer-Encoding: chunked
 
         {
           "id": 2,
           "created_at": "2017-12-21T13:06:56.966Z",
           "updated_at": "2017-12-21T13:06:56.966Z",
           "name": "サンプルユーザ2"
+        }
+
+  $ curl -i http://localhost:3000/users/invarid_id
+        HTTP/1.1 400 Bad Request
+        Content-Type: application/json; charset=utf-8
+        Cache-Control: no-cache
+        X-Request-Id: e22324bf-ff4f-4c83-9002-6c8d8dbe7fa8
+        X-Runtime: 0.023642
+        Transfer-Encoding: chunked
+
+        {
+          "code":"invalid_parameter",
+          "message":"Invalid parameter 'id' value \"invarid_id\": Must be a number."
         }
   EDOC
   # まだこのapiのドキュメントを表示させたくない場合は show false を指定
